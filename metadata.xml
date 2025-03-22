@@ -1,6 +1,7 @@
 <metadata>
-    <name>Disable Items Menu</name>
-    <description>Allows disabling specific items for the current run.</description>
-    <version>0.1</version>
-    <tags>items,menu,disable</tags>
+	<name>Disable Items Menu</name>
+	<directory>tboi-item-filter-mod</directory>
+	<description>Allows disabling specific items for the current run.</description>
+	<version>0.1</version>
+	<visibility/>
 </metadata>
