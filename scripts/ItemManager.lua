@@ -11,39 +11,51 @@ function itemManager.init(mod)
 end
 
 -- Registers all items and saves them using SaveData
-function itemManager.registerItems(_, isContinued)
+function itemManager.getItems(_, isContinued)
     if(modRef:HasData()) then
-        print("Items already registered. Loading from SaveData.")
-        itemsData = json.decode(modRef:LoadData())
-        print("Items loaded from SaveData.")
-    else
-        print("Registering items...")
-        if isContinued then return end -- Don't overwrite on continued games
-
-        local lastItemID = 1
-        local removedItem = false
-        local noMoreItems = false
-        while not noMoreItems do
-            local item = itemConfig:GetCollectible(lastItemID)
-            if item then
-                item.Name = itemManager.getCleanItemName(item.Name) -- Clean the item name
-                itemsData[lastItemID] = { name = item.Name, id = lastItemID, replaceWith = lastItemID } -- Default replacement is itself
-                lastItemID = lastItemID + 1
-                removedItem = false -- Reset removed item flag
-            elseif(not removedItem) then
-                -- If we encounter a removed item, we stop processing
-                lastItemID = lastItemID + 1
-                removedItem = true
-            else
-                noMoreItems = true -- No more items to process
-            end
+        print("Save file found.")
+        if(modRef:LoadData() ~= "") then
+            itemsData = json.decode(modRef:LoadData())
+            print("Loaded items from SaveData successfully.")
+        else
+            print("no items found in SaveData.")
+            itemManager.registerItems(isContinued)
         end
-
-        -- Save the data using SaveData
-        modRef:SaveData(json.encode(itemsData))
-        print("Items registered and saved.")
-    end
+    else
+        itemManager.registerItems(isContinued)
+    end   
 end
+
+function itemManager.registerItems(isContinued)
+    if(isContinued) then
+        print("Game continued, not registering items.")
+        return
+    end
+    print("Registering items...")
+    local lastItemID = 1
+    local removedItem = false
+    local noMoreItems = false
+    while not noMoreItems do
+        local item = itemConfig:GetCollectible(lastItemID)
+        if item then
+            item.Name = itemManager.getCleanItemName(item.Name) -- Clean the item name
+            itemsData[lastItemID] = { name = item.Name, id = lastItemID, replaceWith = lastItemID } -- Default replacement is itself
+            lastItemID = lastItemID + 1
+            removedItem = false -- Reset removed item flag
+        elseif(not removedItem) then
+            -- If we encounter a removed item, we stop processing
+            lastItemID = lastItemID + 1
+            removedItem = true
+        else
+            noMoreItems = true -- No more items to process
+        end
+    end
+
+    -- Save the data using SaveData
+    modRef:SaveData(json.encode(itemsData))
+    print("Items registered and saved.")
+end
+
 
 -- Replaces an item based on the replacement ID
 function itemManager.replaceItem(_, pickup)

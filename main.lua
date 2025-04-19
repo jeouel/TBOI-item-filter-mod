@@ -7,5 +7,5 @@ itemManager.init(mod)
 
 
 -- Register callbacks
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, itemManager.registerItems)
+mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, itemManager.getItems)
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, itemManager.replaceItem, PickupVariant.PICKUP_COLLECTIBLE)
