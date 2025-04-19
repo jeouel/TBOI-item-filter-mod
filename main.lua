@@ -4,8 +4,7 @@ local itemManager = require("scripts.ItemManager")
 
 -- Initialize the mod
 itemManager.init(mod)
--- Load items on mod initialization
-itemManager.loadItems()
+
 
 -- Register callbacks
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, itemManager.registerItems)
