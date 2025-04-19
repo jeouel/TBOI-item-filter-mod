@@ -1,6 +1,6 @@
 <metadata>
-	<name>Disable Items Menu</name>
-	<directory>tboi-item-filter-mod</directory>
+	<name>Item swapper</name>
+	<directory>TBOI-item-filter-mod</directory>
 	<description>Allows disabling specific items for the current run.</description>
 	<version>0.1</version>
 	<visibility/>
